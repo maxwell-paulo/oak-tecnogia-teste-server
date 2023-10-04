@@ -1,5 +1,8 @@
 import handleServerError from "../utils/serverError.js";
-import { createProduct } from "../repositories/productsRepository.js";
+import {
+  createProduct,
+  listProducts,
+} from "../repositories/productsRepository.js";
 
 const createProductController = async (req, res) => {
   const { name, description, value, available } = req.body;
@@ -17,4 +20,17 @@ const createProductController = async (req, res) => {
   }
 };
 
-export { createProductController };
+const listProductsController = async (req, res) => {
+  try {
+    const products = await listProducts();
+
+    console.log(products);
+
+    return res.json(products);
+  } catch (error) {
+    console.log(error);
+    return handleServerError(error);
+  }
+};
+
+export { createProductController, listProductsController };
