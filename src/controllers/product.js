@@ -8,7 +8,12 @@ import {
 const createProductController = async (req, res) => {
   const { name, description, value, available } = req.body;
 
-  if (!name || !description || !value || !available) {
+  if (
+    !name ||
+    !description ||
+    !value ||
+    (available !== true && available !== false)
+  ) {
     return res.status(500).json({ error: "Must fill in all fields" });
   }
 
