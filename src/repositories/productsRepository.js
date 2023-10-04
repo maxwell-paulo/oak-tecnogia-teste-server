@@ -3,7 +3,7 @@ import pool from "../database/database.js";
 const createProduct = async (productData) => {
   const { name, description, value, available } = productData;
 
-  const query = `INSERT INTO PRODUCTS
+  const query = `INSERT INTO products
   (name, description, value, available) VALUES ($1,$2,$3,$4)
   returning *`;
 
@@ -15,9 +15,19 @@ const createProduct = async (productData) => {
 };
 
 const listProducts = async () => {
-  const products = await pool.query(`SELECT name, value FROM PRODUCTS`);
+  const products = await pool.query(`SELECT name, value FROM products`);
 
   return products.rows;
 };
 
-export { createProduct, listProducts };
+const listProductsByValue = async (ascendingOrder) => {
+  const sortOrder = ascendingOrder ? "ASC" : "DESC";
+
+  const products = await pool.query(
+    `SELECT name, value FROM products ORDER BY value ${sortOrder}`
+  );
+
+  return products.rows;
+};
+
+export { createProduct, listProducts, listProductsByValue };

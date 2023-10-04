@@ -2,6 +2,7 @@ import handleServerError from "../utils/serverError.js";
 import {
   createProduct,
   listProducts,
+  listProductsByValue,
 } from "../repositories/productsRepository.js";
 
 const createProductController = async (req, res) => {
@@ -33,4 +34,27 @@ const listProductsController = async (req, res) => {
   }
 };
 
-export { createProductController, listProductsController };
+let ascendingOrder = true;
+
+const toggleSortOrder = () => {
+  ascendingOrder = !ascendingOrder;
+};
+
+const listProductsByValueController = async (req, res) => {
+  try {
+    toggleSortOrder();
+
+    const products = await listProductsByValue(ascendingOrder);
+
+    return res.json(products);
+  } catch (error) {
+    console.log(error);
+    return handleServerError(error);
+  }
+};
+
+export {
+  createProductController,
+  listProductsController,
+  listProductsByValueController,
+};
