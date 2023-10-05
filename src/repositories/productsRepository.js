@@ -15,7 +15,7 @@ const createProduct = async (productData) => {
 };
 
 const listProducts = async () => {
-  const products = await pool.query(`SELECT name, value FROM products`);
+  const products = await pool.query(`SELECT name, value, id FROM products`);
 
   return products.rows;
 };
